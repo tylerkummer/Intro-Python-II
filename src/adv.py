@@ -40,9 +40,9 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
-player_name = input("What is your name?\n")
-player = Player(player_name, room['outside'])
-print(f"Welcome {player.name}!\nYou are currently {player.current_room}")
+user = input("What is your name?\n")
+player = Player(user, room['outside'])
+print(f"Welcome {player.name}!\nYour current location is {player.current_room}")
 
 # Write a loop that:
 #
@@ -56,8 +56,35 @@ print(f"Welcome {player.name}!\nYou are currently {player.current_room}")
 # If the user enters "q", quit the game.
 
 while True:
-    player_input = input("North [n] South [s] East [e] West [w] Quit [q]")
+    direction = input("North [n] South [s] East [e] West [w] Quit [q]\n")
 
-    if(player_input == "q"):
+    if(direction == "q"):
         print("Quitting Game...")
         break
+    elif(direction == "n"):
+        if(player.current_room.n_to == None):
+            print("That direction does not exist")
+        else:
+            player.current_room = player.current_room.n_to
+            print(f"{player.current_room}")
+    elif(direction == "s"):
+        if(player.current_room.s_to == None):
+            print("That direction does not exist")
+        else:
+            player.current_room = player.current_room.s_to
+            print(f"{player.current_room}")
+    elif(direction == "e"):
+        if(player.current_room.e_to == None):
+            print("That direction does not exist")
+        else:
+            player.current_room = player.current_room.e_to
+            print(f"{player.current_room}")
+    elif(direction == "w"):
+        if(player.current_room.w_to == None):
+            print("That direction does not exist")
+        else:
+            player.current_room = player.current_room.w_to
+            print(f"{player.current_room}")
+    else:
+        print("Wrong Input!")
+        direction
