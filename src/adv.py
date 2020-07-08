@@ -40,9 +40,10 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
-user = input("What is your name?\n")
+user = input("\nWhat is your name?\n")
 player = Player(user, room['outside'])
-print(f"Welcome {player.name}!\nYour current location is {player.current_room}")
+print(
+    f"\nWelcome {player.name}!\nYour current location is {player.current_room}\n")
 
 # Write a loop that:
 #
@@ -56,34 +57,34 @@ print(f"Welcome {player.name}!\nYour current location is {player.current_room}")
 # If the user enters "q", quit the game.
 
 while True:
-    direction = input("North [n] South [s] East [e] West [w] Quit [q]\n")
+    direction = input("\nNorth [n] South [s] East [e] West [w] Quit [q]\n")
 
     if(direction == "q"):
         print("Quitting Game...")
         break
     elif(direction == "n"):
         if(player.current_room.n_to == None):
-            print("That direction does not exist")
+            print("\nThat direction does not exist\n")
         else:
             player.current_room = player.current_room.n_to
-            print(f"{player.current_room}")
+            print(f"\n{player.current_room}\n")
     elif(direction == "s"):
         if(player.current_room.s_to == None):
-            print("That direction does not exist")
+            print("\nThat direction does not exist\n")
         else:
             player.current_room = player.current_room.s_to
-            print(f"{player.current_room}")
+            print(f"\n{player.current_room}\n")
     elif(direction == "e"):
         if(player.current_room.e_to == None):
-            print("That direction does not exist")
+            print("\nThat direction does not exist\n")
         else:
             player.current_room = player.current_room.e_to
-            print(f"{player.current_room}")
+            print(f"\n{player.current_room}\n")
     elif(direction == "w"):
         if(player.current_room.w_to == None):
-            print("That direction does not exist")
+            print("\nThat direction does not exist\n")
         else:
             player.current_room = player.current_room.w_to
-            print(f"{player.current_room}")
+            print(f"\n{player.current_room}\n")
     else:
-        print("Wrong Input!")
+        print("\nWrong Input!\n")
