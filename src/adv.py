@@ -87,4 +87,3 @@ while True:
             print(f"{player.current_room}")
     else:
         print("Wrong Input!")
-        direction
