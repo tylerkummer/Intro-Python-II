@@ -61,51 +61,65 @@ items = []
 
 while True:
     press = input(
-        "\nNorth [n] South [s] East [e] West [w] Quit [q]\nRoom Update [u] Inventory [i] Take Item [take {item name}] Drop Item [drop {item name}]\n")
+        "\nNorth [n] South [s] East [e] West [w] Quit [q]\nRoom Update [u] Inventory [i] Take Item [take {item name}] Drop Item [drop {item name}]\n").split()
 
-    if(press == "q"):
+    if(press[0] == "q"):
         print("Quitting Game...")
         break
-    elif(press == "n"):
+    elif(press[0] == "n"):
         if(player.current_room.n_to == None):
             print("\nThat direction does not exist\n")
         else:
             player.current_room = player.current_room.n_to
             print(f"\n{player.current_room}\n")
-    elif(press == "s"):
+    elif(press[0] == "s"):
         if(player.current_room.s_to == None):
             print("\nThat direction does not exist\n")
         else:
             player.current_room = player.current_room.s_to
             print(f"\n{player.current_room}\n")
-    elif(press == "e"):
+    elif(press[0] == "e"):
         if(player.current_room.e_to == None):
             print("\nThat direction does not exist\n")
         else:
             player.current_room = player.current_room.e_to
             print(f"\n{player.current_room}\n")
-    elif(press == "w"):
+    elif(press[0] == "w"):
         if(player.current_room.w_to == None):
             print("\nThat direction does not exist\n")
         else:
             player.current_room = player.current_room.w_to
             print(f"\n{player.current_room}\n")
-    elif(press == "i"):
+    elif(press[0] == "i"):
         if(len(items) == 0):
             print("\nYou have no Items\n")
         else:
             print(items)
-    elif(press == "u"):
+    elif(press[0] == "u"):
         print(f"\n{player.current_room}\n")
     elif(press[0] == "take"):
-        if(len(player.current_room.item) > 0):
-            player.pickup(player.current_room.item)
+        item_name = ""
+        if len(press) == 3:
+            item_name = press[1] + " " + press[2]
         else:
-            print("Empty Room")
-            player.current_room.item = None
-    # elif(press.split(" ")[0] == f"drop {player.current_room.item.name}"):
-    #     print("items", items)
-    #     items.remove(player.current_room.item.name)
-    #     player.current_room.item.append(player.current_room.item.name)
+            item_name = press[1]
+        if player.current_room.item is not None:
+            if player.current_room.item.name == item_name:
+                items.append(player.current_room.item.name)
+                player.current_room.item = None
+            else:
+                print("Item doesn't exist")
+        else:
+            print("No Items")
+    elif (press[0] == "drop"):
+        item_name = ""
+        if len(press) == 3:
+            item_name = press[1] + " " + press[2]
+        else:
+            item_name = press[1]
+        for item in items:
+            if item == item_name:
+                player.current_room.item = item
+                items.remove(item)
     else:
         print("\nWrong Input!\n")
