@@ -61,7 +61,7 @@ items = []
 
 while True:
     press = input(
-        "\nNorth [n] South [s] East [e] West [w] Quit [q]\nInventory [i] Take Item [t] Drop Item [d]\n")
+        "\nNorth [n] South [s] East [e] West [w] Quit [q]\nRoom Update [u] Inventory [i] Take Item [take {item name}] Drop Item [drop {item name}]\n")
 
     if(press == "q"):
         print("Quitting Game...")
@@ -95,7 +95,17 @@ while True:
             print("\nYou have no Items\n")
         else:
             print(items)
-    elif(press == "t"):
-        items.append(player.current_room.item.name)
+    elif(press == "u"):
+        print(f"\n{player.current_room}\n")
+    elif(press[0] == "take"):
+        if(len(player.current_room.item) > 0):
+            player.pickup(player.current_room.item)
+        else:
+            print("Empty Room")
+            player.current_room.item = None
+    # elif(press.split(" ")[0] == f"drop {player.current_room.item.name}"):
+    #     print("items", items)
+    #     items.remove(player.current_room.item.name)
+    #     player.current_room.item.append(player.current_room.item.name)
     else:
         print("\nWrong Input!\n")

@@ -11,4 +11,6 @@ class Room:
         self.item = item
 
     def __str__(self):
+        if(self.item == None):
+            return f"Room:\n{self.name}\nDescription:\n{self.description}\nNo Item"
         return f"Room:\n{self.name}\nDescription:\n{self.description}\n{self.item}"
