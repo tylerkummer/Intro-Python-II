@@ -1,24 +1,26 @@
 from room import Room
+from player import Player
+from item import Item
 
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons", Item("Small Torch", "Used for exploring.")),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+passages run north and east.""", Item("Dirty Map", "Map that is too dirty to see properly.")),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""", Item("Small Stick", "Weak weapon used to fight enemies.")),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+to north. The smell of gold permeates the air.""", Item("Small Rock", "Small pebble that the passage is full of.")),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+earlier adventurers. The only exit is to the south.""", Item("Empty Bag of coins", "Cloth bags used for carrying coins that have nothing inside of them")),
 }
 
 
@@ -39,6 +41,11 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+user = input("\nWhat is your name?\n")
+player = Player(user, room['outside'])
+print(
+    f"\nWelcome {player.name}!\n{player.current_room}\n")
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +56,70 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+items = []
+
+while True:
+    press = input(
+        "\nNorth [n] South [s] East [e] West [w] Quit [q]\nRoom Update [u] Inventory [i] Take Item [take {item name}] Drop Item [drop {item name}]\n").split()
+
+    if(press[0] == "q"):
+        print("Quitting Game...")
+        break
+    elif(press[0] == "n"):
+        if(player.current_room.n_to == None):
+            print("\nThat direction does not exist\n")
+        else:
+            player.current_room = player.current_room.n_to
+            print(f"\n{player.current_room}\n")
+    elif(press[0] == "s"):
+        if(player.current_room.s_to == None):
+            print("\nThat direction does not exist\n")
+        else:
+            player.current_room = player.current_room.s_to
+            print(f"\n{player.current_room}\n")
+    elif(press[0] == "e"):
+        if(player.current_room.e_to == None):
+            print("\nThat direction does not exist\n")
+        else:
+            player.current_room = player.current_room.e_to
+            print(f"\n{player.current_room}\n")
+    elif(press[0] == "w"):
+        if(player.current_room.w_to == None):
+            print("\nThat direction does not exist\n")
+        else:
+            player.current_room = player.current_room.w_to
+            print(f"\n{player.current_room}\n")
+    elif(press[0] == "i"):
+        if(len(items) == 0):
+            print("\nYou have no Items\n")
+        else:
+            print(items)
+    elif(press[0] == "u"):
+        print(f"\n{player.current_room}\n")
+    elif(press[0] == "take"):
+        item_name = ""
+        if len(press) == 3:
+            item_name = press[1] + " " + press[2]
+        else:
+            item_name = press[1]
+        if player.current_room.item is not None:
+            if player.current_room.item.name == item_name:
+                items.append(player.current_room.item.name)
+                player.current_room.item = None
+            else:
+                print("Item doesn't exist")
+        else:
+            print("No Items")
+    elif (press[0] == "drop"):
+        item_name = ""
+        if len(press) == 3:
+            item_name = press[1] + " " + press[2]
+        else:
+            item_name = press[1]
+        for item in items:
+            if item == item_name:
+                player.current_room.item = item
+                items.remove(item)
+    else:
+        print("\nWrong Input!\n")
